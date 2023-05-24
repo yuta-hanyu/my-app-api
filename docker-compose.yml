@@ -1,0 +1,93 @@
+services:
+  app:
+    container_name: app
+    build: ./docker/php
+    volumes:
+      - .:/var/www
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - 8111:80
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    working_dir: /var/www
+    depends_on:
+      - app
+  db:
+    init: true
+    build:
+      context: .
+      dockerfile: ./docker/mysql/Dockerfile
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      TZ: "Asia/Tokyo"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql-mode=""
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "51111:3306"
+# version: "3.9"
+
+# volumes:
+#   php-fpm-socket-my-app:
+
+# services:
+#   app:
+#     init: true
+#     build:
+#       context: .
+#       dockerfile: ./docker/php/Dockerfile
+#       target: dev
+#     ports:
+#       - 8111:8111
+#     environment:
+#       XDEBUG_IDEKEY: PHPSTORM_CHART_APP
+#     volumes:
+#       - type: bind
+#         source: ./app
+#         target: /work
+#       - type: volume
+#         source: php-fpm-socket-my-app
+#         target: /var/run/php-fpm
+#         volume:
+#           nocopy: false
+#   nginx:
+#     init: true
+#     build:
+#       context: .
+#       dockerfile: ./docker/nginx/Dockerfile
+#     ports:
+#       - "3111:80"
+#     depends_on:
+#       - app
+#     working_dir: /work
+#     volumes:
+#       - type: bind
+#         source: ./app
+#         target: /work
+#       - type: volume
+#         source: php-fpm-socket-my-app
+#         target: /var/run/php-fpm
+#         volume:
+#           nocopy: true
+#   db:
+#     init: true
+#     build:
+#       context: .
+#       dockerfile: ./docker/mysql/Dockerfile
+#     environment:
+#       MYSQL_DATABASE: my-app
+#       MYSQL_USER: user
+#       MYSQL_PASSWORD: password
+#       MYSQL_ROOT_PASSWORD: password
+#       TZ: Asia/Tokyo
+#     volumes:
+#       - ./mysql:/var/lib/mysql
+#     ports:
+#       - "51111:3306"
+
+# networks:
+#   default:
+#     name: my-app
