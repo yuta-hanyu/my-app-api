@@ -7,9 +7,3 @@ node_modules/
 .DS_Store
 .php-cs-fixer.cache
 memo.md
-
- git remote set-url origin https://yuta-hanyu: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@github.com:yuta-hanyu/my-app-api.git
- git remote set-url origin https://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@github.com:yuta-hanyu/my-app-api.git
-
-
- git remote set-url origin git@github.com:yuta-hanyu/my-app-api.git
