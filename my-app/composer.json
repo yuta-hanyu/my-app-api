@@ -49,6 +49,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "setup-local": [
+            "@php -r \"copy('env/.env.local', '.env');\""
         ]
     },
     "extra": {

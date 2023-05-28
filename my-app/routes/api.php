@@ -5,7 +5,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Task\TaskController;
+use App\Http\Controllers\Api\TaskColumn\TaskColumnController;
+use Illuminate\Support\Facades\Log;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(TaskController::class)->group(function () {
+Route::controller(TaskColumnController::class)->group(function () {
     Route::get('/tasks', 'getTasks');
     // Route::post('/announcements', 'createAnnouncement');
     // Route::put('/announcements/{announceId}', 'updateAnnouncement');
