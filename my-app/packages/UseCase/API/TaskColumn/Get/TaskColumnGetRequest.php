@@ -11,9 +11,15 @@ class TaskColumnGetRequest
      */
     private string $userName;
 
-    public function __construct(string $userName)
+    /**
+     * @var int
+     */
+    private int $userId;
+
+    public function __construct(string $userName, int $userId)
     {
         $this->userName = $userName;
+        $this->userId = $userId;
     }
 
     /**
@@ -22,6 +28,14 @@ class TaskColumnGetRequest
     public function getUserName(): string
     {
         return $this->userName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->userId;
     }
 }
 

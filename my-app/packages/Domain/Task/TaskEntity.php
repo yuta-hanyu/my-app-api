@@ -2,21 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Packages\Domain\TaskColumn;
+namespace Packages\Domain\Task;
 
-use Packages\Domain\Task\TaskEntity;
+use Packages\Domain\TaskColumn\TaskColumnId;
 
-class TaskColumnEntity
+class TaskEntity
 {
     /**
-     * @var TaskColumnId
+     * @var TaskId
      */
-    private TaskColumnId|null $taskColumnId;
+    private TaskId|null $taskId;
 
     /**
      * @var int
      */
     private int $userId;
+
+    /**
+     * @var TaskColumnId
+     */
+    private TaskColumnId|null $taskColumnId;
 
     /**
      * @var string
@@ -29,23 +34,41 @@ class TaskColumnEntity
     private int $sort;
 
     /**
-     * @param TaskColumnId|null $taskColumnId
+     * @param TaskId|null $taskId
      * param int $userId
+     * @param TaskColumnId|null $taskColumnId
      * @param string $title
      * @param int $sort
      */
     public function __construct(
-        TaskColumnId|null $taskColumnId,
+        TaskId|null $taskId,
         int $userId,
+        TaskColumnId|null $taskColumnId,
         string $title,
         int $sort
     ) {
-        $this->taskColumnId = $taskColumnId;
+        $this->taskId = $taskId;
         $this->userId = $userId;
+        $this->taskColumnId = $taskColumnId;
         $this->title = $title;
         $this->sort = $sort;
     }
 
+    /**
+     * @return TaskId|null
+     */
+    public function getTaskId(): ?TaskId
+    {
+        return $this->taskId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
 
     /**
      * @return TaskColumnId|null
@@ -63,13 +86,6 @@ class TaskColumnEntity
         return $this->title;
     }
 
-    /**
-     * @return int
-     */
-    public function getUserId(): int
-    {
-        return $this->userId;
-    }
 
     /**
      * @return int

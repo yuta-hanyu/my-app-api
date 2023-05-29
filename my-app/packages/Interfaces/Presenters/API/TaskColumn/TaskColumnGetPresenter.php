@@ -6,7 +6,8 @@ namespace Packages\Interfaces\Presenters\API\TaskColumn;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Packages\Domain\TaskColumn\TaskColumnEntity;
+use Packages\Domain\Task\TaskEntity;
+use Packages\Domain\TaskColumn\TaskColumnEntityWithTasks;
 use Packages\UseCase\API\TaskColumn\Get\TaskColumnGetPresenterInterface;
 use Packages\UseCase\API\TaskColumn\Get\TaskColumnGetResponse;
 
@@ -15,18 +16,38 @@ use function response;
 class TaskColumnGetPresenter implements TaskColumnGetPresenterInterface
 {
     /**
-     * @param TaskColumnEntity $taskColumn
+     * @param TaskColumnEntityWithTasks $taskColumnWithTasks
      * @return array<string,mixed>
      */
     public function accountEntitytoArray(
-        TaskColumnEntity $taskColumn
+        TaskColumnEntityWithTasks $taskColumnWithTasks
     ): array {
         return [
-            'task_column_id' => $taskColumn->getTaskColumnId()?->getValue(),
-            'user_id' => $taskColumn->getUserId(),
-            'title' => $taskColumn->getTitle(),
-            'sort' => $taskColumn->getSort(),
+            'task_column_id' => $taskColumnWithTasks->getTaskColumnId()?->getValue(),
+            'user_id' => $taskColumnWithTasks->getUserId(),
+            'title' => $taskColumnWithTasks->getTitle(),
+            'sort' => $taskColumnWithTasks->getSort(),
+            'tasks' => $this->getTasks($taskColumnWithTasks->getTasks())
         ];
+    }
+
+    /**
+     * @param TaskEntity[] $tasks
+     * @return TaskEntity[]
+     */
+    private function getTasks(array $tasks): ?array
+    {
+        $taskList = [];
+        foreach ($tasks as $task) {
+            if ($task->getTaskId()->getValue()) {
+                $taskList[] = [
+                    'taskId' => $task->getTaskId()->getValue(),
+                    'sort' => $task->getSort(),
+                    'title' => $task->getTitle()
+                ];
+            }
+        }
+        return $taskList ?: null;
     }
 
     /**
@@ -35,7 +56,7 @@ class TaskColumnGetPresenter implements TaskColumnGetPresenterInterface
      */
     public function output(TaskColumnGetResponse $outputData): JsonResponse
     {
-        foreach ($outputData->taskColumns as $taskColumn) {
+        foreach ($outputData->taskColumnWithTasks as $taskColumn) {
             $response[] = $this->accountEntitytoArray($taskColumn);
         }
         return response()->json($response ?? []);

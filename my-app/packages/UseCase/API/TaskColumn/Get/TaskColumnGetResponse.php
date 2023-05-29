@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Packages\UseCase\API\TaskColumn\Get;
 
-use Packages\Domain\TaskColumn\TaskColumnEntity;
+use Illuminate\Support\Facades\Log;
+use Packages\Domain\TaskColumn\TaskColumnEntityWithTasks;
 
 class TaskColumnGetResponse
 {
     /**
-     * @var TaskColumnEntity[]
+     * @var TaskColumnEntityWithTasks[]
      */
-    public array $taskColumns;
+    public array $taskColumnWithTasks;
 
     /**
-     * @param TaskColumnEntity[] $taskColumns
+     * @param TaskColumnEntityWithTasks[] $taskColumnWithTasks
      */
     public function __construct(
-        array $taskColumns
+        array $taskColumnWithTasks
     ) {
-        $this->taskColumns = $taskColumns;
+        $this->taskColumnWithTasks = $taskColumnWithTasks;
     }
 }

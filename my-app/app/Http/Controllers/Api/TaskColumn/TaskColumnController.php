@@ -19,8 +19,7 @@ class TaskColumnController extends Controller
         Request $request,
         TaskColumnGetInteractorInterface $interactor
     ): JsonResponse {
-    Log::debug("あああああああああああああ");
-        $request = new TaskColumnGetRequest('羽生');
+        $request = new TaskColumnGetRequest('羽生', 1);
         return $interactor->handle($request);
         // try {
         //     $organizationId = UserInfo::getOrganizationId($request);

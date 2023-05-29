@@ -6,7 +6,7 @@ namespace Packages\Domain\TaskColumn;
 
 use Packages\Domain\Task\TaskEntity;
 
-class TaskColumnEntity
+class TaskColumnEntityWithTasks
 {
     /**
      * @var TaskColumnId
@@ -29,21 +29,29 @@ class TaskColumnEntity
     private int $sort;
 
     /**
+     * @var TaskEntity[]
+     */
+    private array $tasks;
+
+    /**
      * @param TaskColumnId|null $taskColumnId
      * param int $userId
      * @param string $title
      * @param int $sort
+     * @param TaskEntity[] $tasks
      */
     public function __construct(
         TaskColumnId|null $taskColumnId,
         int $userId,
         string $title,
-        int $sort
+        int $sort,
+        array $tasks
     ) {
         $this->taskColumnId = $taskColumnId;
         $this->userId = $userId;
         $this->title = $title;
         $this->sort = $sort;
+        $this->tasks = $tasks;
     }
 
 
@@ -77,5 +85,13 @@ class TaskColumnEntity
     public function getSort(): int
     {
         return $this->sort;
+    }
+
+    /**
+     * @return TaskEntity[]
+     */
+    public function getTasks(): array
+    {
+        return $this->tasks;
     }
 }
