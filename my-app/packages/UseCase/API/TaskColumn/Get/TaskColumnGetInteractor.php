@@ -43,13 +43,12 @@ class TaskColumnGetInteractor implements TaskColumnGetInteractorInterface
         $this->presenter = $presenter;
     }
     /**
-     * @param TaskColumnGetRequest $request
+     * @param TaskColumnGetRequest[] $request
      * @return JsonResponse
      */
     public function handle(TaskColumnGetRequest $request): JsonResponse
     {
         $taskColumns = $this->taskColumnRepository->getTaskColumns();
-        Log::debug(print_r($taskColumns, true));
 
         $newList = [];
         foreach ($taskColumns as $taskColumn) {
@@ -60,7 +59,7 @@ class TaskColumnGetInteractor implements TaskColumnGetInteractorInterface
                 $taskColumn->getSort(),
                 $this->taskRepository->getTasksByTaskColumnId($taskColumn)
             );
-        }
+        };
 
         $outputData = new TaskColumnGetResponse($newList);
         return $this->presenter->output($outputData);

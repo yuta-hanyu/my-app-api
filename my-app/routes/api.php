@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(TaskColumnController::class)->group(function () {
     Route::get('/tasks', 'getTasks');
     // Route::post('/announcements', 'createAnnouncement');
-    // Route::put('/announcements/{announceId}', 'updateAnnouncement');
+    Route::put('/task-column/sort', 'updateTaskColumnSort');
     // Route::delete('/announcements/{announceId}', 'deleteAnnouncement');
 });
 

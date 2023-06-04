@@ -37,6 +37,7 @@ class TaskRepository implements TaskRepositoryInterface
         $tasks = Task::select(self::COLUMN)
         ->where('user_id', $taskColumn->getUserId())
         ->where('task_column_id', $taskColumn->getTaskColumnId()->getValue())
+        ->orderBy('sort')
         ->get();
         $taskList = $tasks->map(function ($task) {
             return $this->getEntityByModel($task);

@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\TaskColumn;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TaskColumn\UpdateTaskColumnRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Packages\UseCase\API\TaskColumn\Get\TaskColumnGetInteractorInterface;
 use Illuminate\Support\Facades\Log;
+use Packages\Domain\TaskColumn\TaskColumnId;
 use Packages\UseCase\API\TaskColumn\Get\TaskColumnGetRequest;
-// use Packages\UseCase\API\TaskColumn\Get\TaskGetColumnResponse;
+use Packages\UseCase\API\TaskColumn\Update\TaskColumnUpdateInteractorInterface;
+use Packages\UseCase\API\TaskColumn\Update\TaskColumnUpdateRequest;
 use Throwable;
 
 class TaskColumnController extends Controller
@@ -38,5 +41,22 @@ class TaskColumnController extends Controller
         // } catch (Throwable $e) {
         //     return ErrorMessage::apiError('AnnouncementControllerGetGetRecommendUsersException', $e);
         // }
+    }
+
+    public function updateTaskColumnSort(
+        UpdateTaskColumnRequest $request,
+        TaskColumnUpdateInteractorInterface $interactor
+    ): JsonResponse {
+        $taskColumnList = [];
+        foreach ($request->input('columns') as $taskColumn) {
+            $taskColumnList[] = new TaskColumnUpdateRequest(
+                '羽生',
+                $taskColumn['user_id'],
+                new TaskColumnId($taskColumn['task_column_id']),
+                $taskColumn['title'],
+                $taskColumn['sort']
+            );
+        }
+        return $interactor->handle($taskColumnList);
     }
 }
