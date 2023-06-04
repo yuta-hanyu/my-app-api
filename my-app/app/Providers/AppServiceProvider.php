@@ -13,8 +13,12 @@ use Packages\Domain\TransactionInterface;
 use Packages\Infrastructure\DB\RDS\Repository\Task\TaskRepository;
 use Packages\Infrastructure\DB\RDS\Repository\TaskColumn\TaskColumnRepository;
 use Packages\Infrastructure\DB\Transaction;
+use Packages\Interfaces\Presenters\API\Task\TaskUpdatePresenter;
 use Packages\Interfaces\Presenters\API\TaskColumn\TaskColumnGetPresenter;
 use Packages\Interfaces\Presenters\API\TaskColumn\TaskColumnUpdatePresenter;
+use Packages\UseCase\API\Task\Update\TaskUpdateInteractor;
+use Packages\UseCase\API\Task\Update\TaskUpdateInteractorInterface;
+use Packages\UseCase\API\Task\Update\TaskUpdatePresenterInterface;
 use Packages\UseCase\API\TaskColumn\Get\TaskColumnGetPresenterInterface;
 use Packages\UseCase\API\TaskColumn\Update\TaskColumnUpdateInteractorInterface;
 use Packages\UseCase\API\TaskColumn\Update\TaskColumnUpdateInteractor;
@@ -32,10 +36,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TaskColumnGetInteractorInterface::class, TaskColumnGetInteractor::class);
         $this->app->bind(TaskColumnRepositoryInterface::class, TaskColumnRepository::class);
         $this->app->bind(TaskColumnGetPresenterInterface::class, TaskColumnGetPresenter::class);
-        $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
-
         $this->app->bind(TaskColumnUpdateInteractorInterface::class, TaskColumnUpdateInteractor::class);
         $this->app->bind(TaskColumnUpdatePresenterInterface::class, TaskColumnUpdatePresenter::class);
+
+        $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
+        $this->app->bind(TaskUpdateInteractorInterface::class, TaskUpdateInteractor::class);
+        $this->app->bind(TaskUpdatePresenterInterface::class, TaskUpdatePresenter::class);
 
     }
 

@@ -3,6 +3,7 @@
 // NOTE https://qiita.com/Hiraku/items/734f0666ab3d34c52efa
 // declare(strict_types=1);
 
+use App\Http\Controllers\Api\Task\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TaskColumn\TaskColumnController;
@@ -28,5 +29,9 @@ Route::controller(TaskColumnController::class)->group(function () {
     // Route::post('/announcements', 'createAnnouncement');
     Route::put('/task-column/sort', 'updateTaskColumnSort');
     // Route::delete('/announcements/{announceId}', 'deleteAnnouncement');
+});
+
+Route::controller(TaskController::class)->group(function () {
+    Route::put('/tasks', 'updateTasks');
 });
 

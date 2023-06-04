@@ -9,8 +9,14 @@ use Packages\Domain\TaskColumn\TaskColumnEntity;
 interface TaskRepositoryInterface
 {
     /**
-     * @param TaskColumnEntity $askColumn
+     * @param TaskColumnEntity $taskColumn
      * @return array
      */
     public function getTasksByTaskColumnId(TaskColumnEntity $taskColum): array;
+
+    /**
+     * @param TaskEntity $task
+     * @return TaskEntity
+     */
+    public function update(TaskEntity $task): TaskEntity;
 }
